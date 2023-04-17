@@ -56,4 +56,10 @@ M.nvimtree = {
   },
 }
 
+M.telescope = {
+  defaults = {
+    file_ignore_patterns = {"node_modules", ".git/", ".venv"},
+  },
+}
+
 return M
