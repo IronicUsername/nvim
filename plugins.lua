@@ -52,6 +52,21 @@ local plugins = {
       require("better_escape").setup()
     end,
   },
+  {
+    "ThePrimeagen/harpoon",
+    config = function()
+      require("harpoon").setup()
+    end,
+  },
+  -- {
+  --   'glacambre/firenvim',
+  --   cond = not not vim.g.started_by_firenvim,
+  --   build = function()
+  --       require("lazy").load({ plugins = "firenvim", wait = true })
+  --       vim.fn["firenvim#install"](0)
+  --   end
+  -- },
+
 
   -- To make a plugin not be loaded
   -- {

@@ -5,8 +5,7 @@ M.treesitter = {
     "vim",
     "lua",
     "html",
-    "css",
-    "javascript",
+    "css", "javascript",
     "typescript",
     "tsx",
     "c",
@@ -41,8 +40,41 @@ M.mason = {
 }
 
 -- git support in nvimtree
+local HEIGHT_RATIO = 0.35 -- You can change this
+local WIDTH_RATIO = 0.35  -- You can change this too
 M.nvimtree = {
-  git = {
+    respect_buf_cwd = true,
+
+    -- make it floaty and centered
+    view = {
+        relativenumber = true,
+        float = {
+          enable = true,
+          open_win_config = function()
+            local screen_w = vim.opt.columns:get()
+            local screen_h = vim.opt.lines:get() - vim.opt.cmdheight:get()
+            local window_w = screen_w * WIDTH_RATIO
+            local window_h = screen_h * HEIGHT_RATIO
+            local window_w_int = math.floor(window_w)
+            local window_h_int = math.floor(window_h)
+            local center_x = (screen_w - window_w) / 2
+            local center_y = ((vim.opt.lines:get() - window_h) / 2)
+                             - vim.opt.cmdheight:get()
+            return {
+              border = "rounded",
+              relative = "editor",
+              row = center_y,
+              col = center_x,
+              width = window_w_int,
+              height = window_h_int,
+            }
+            end,
+        },
+        width = function()
+          return math.floor(vim.opt.columns:get() * WIDTH_RATIO)
+        end,
+      },
+      git = {
     enable = true,
   },
 
@@ -54,11 +86,15 @@ M.nvimtree = {
       },
     },
   },
+  filters = {
+    custom = {".venv$", ".git$", "node_modules$"},
+  },
 }
 
 M.telescope = {
+  shorten_path = true,
   defaults = {
-    file_ignore_patterns = {"node_modules", ".git/", ".venv"},
+    file_ignore_patterns = {"node_modules$", ".git", ".venv", ".mypy", ".pytest", ".DS_Store"},
   },
 }
 
